@@ -1,0 +1,60 @@
+<html>
+  <head>
+
+    <script type="text/javascript">
+
+    //essa função faz a busca na URL
+    function carregar() {//ler a url que é o ms endereço
+
+      let url = '/api/aluno';
+
+      fetch(url)//busca url
+      .then(res => res.json())//resultado passa p/ add table
+      .then((out) => {
+        addTable(out);
+        console.log('Resultado', out);
+      })
+      .catch(err => console.error(err));
+
+    }
+
+    function addTable(resultado) {
+      var table = document.createElement('table');
+      for( var i = 0; i < resultado.length; i++) {
+
+        var child = resultado[i];
+        if (i === 0) {//compara o conteúdo e o tipo
+          addHeaders(table, Object.keys(child));
+        }
+        var row = table.insertRow();
+        Object.keys(child).forEach(function(k) {
+          console.log(k);
+          var cell = row.insertCell();
+          cell.appendChild(document.createTextNode(child[k]));
+        })
+      }
+
+      document.getElementById('tabela').appendChild(table);
+    }
+
+    function addHeaders(table, keys) {
+      var row = table.insertRow();
+      for( var i = 0; i < keys.length; i++) {
+        var cell = row.insertCell();
+        cell.appendChild(document.createTextNode(keys[i]));
+      }
+    }
+
+    </script>
+
+  </head>
+
+  <body>
+
+    <input id="clickMe" type="button" value="Carregar" onclick="carregar();"/>
+
+    <div id="tabela"></div>
+
+  </body>
+
+</html>
